@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Gen AI Interview Prep Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="A focused study hub for Gen AI software development interviews covering Python, Gen AI/LLMs, and AWS fundamentals." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ===================================================
+         CSS CUSTOM PROPERTIES (theme tokens)
+      =================================================== */
+    :root {
+      --bg-base: #0f172a;
+      --bg-shell: #020617;
+      --bg-card: #0d1b30;
+      --bg-side: #0a1628;
+      --bg-input: #0d1b30;
+      --border: rgba(148, 163, 184, 0.25);
+      --border-hover: #22c55e;
+      --text-primary: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-faint: #64748b;
+      --accent-1: #38bdf8;
+      --accent-2: #a855f7;
+      --accent-3: #f97316;
+      --accent-green: #22c55e;
+      --accent-glow: rgba(34, 197, 94, 0.18);
+      --tab-active-bg: linear-gradient(135deg, #22c55e, #22d3ee);
+      --tab-active-color: #020617;
+      --progress-track: rgba(148, 163, 184, 0.12);
+      --progress-fill: linear-gradient(90deg, #22c55e, #38bdf8);
+      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
+      --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.7);
+      --radius-card: 14px;
+      --radius-pill: 999px;
+      --font-ui: 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg-base: #f1f5f9;
+      --bg-shell: #ffffff;
+      --bg-card: #f8fafc;
+      --bg-side: #f0f4f8;
+      --bg-input: #f8fafc;
+      --border: rgba(100, 116, 139, 0.25);
+      --border-hover: #16a34a;
+      --text-primary: #0f172a;
+      --text-muted: #475569;
+      --text-faint: #94a3b8;
+      --accent-green: #16a34a;
+      --accent-glow: rgba(22, 163, 74, 0.12);
+      --tab-active-bg: linear-gradient(135deg, #16a34a, #0891b2);
+      --tab-active-color: #ffffff;
+      --progress-track: rgba(100, 116, 139, 0.15);
+      --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.14);
+    }
+
+    /* ===================================================
+         RESET & BASE
+      =================================================== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--bg-base);
+      color: var(--text-primary);
+      transition: background 0.3s ease, color 0.3s ease;
+      min-height: 100vh;
+    }
+
+    #root {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 24px 16px 48px;
+    }
+
+    /* ===================================================
+         APP SHELL
+      =================================================== */
+    .app-shell {
+      max-width: 1160px;
+      width: 100%;
+      background: var(--bg-shell);
+      border-radius: 20px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+      padding: 28px 32px 40px;
+      border: 1px solid var(--border);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    @media (max-width: 640px) {
+      .app-shell {
+        padding: 18px 16px 28px;
+        border-radius: 14px;
+      }
+
+      #root {
+        padding: 12px 8px 32px;
+      }
+    }
+
+    /* ===================================================
+         HEADER
+      =================================================== */
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-body {
+      flex: 1;
+    }
+
+    .header-title {
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .header-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      max-width: 580px;
+      line-height: 1.5;
+    }
+
+    /* Theme toggle button */
+    .theme-toggle {
+      flex-shrink: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent-1);
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
+    /* ===================================================
+         SEARCH BAR
+      =================================================== */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.95rem;
+      pointer-events: none;
+      color: var(--text-faint);
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 10px 16px 10px 40px;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-faint);
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-faint);
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 2px;
+      transition: color 0.15s;
+    }
+
+    .search-clear:hover {
+      color: var(--text-primary);
+    }
+
+    /* ===================================================
+         TOPICS HAMBURGER DROPDOWN
+      =================================================== */
+    .topics-nav {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .topics-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      padding: 9px 18px;
+      font-size: 0.9rem;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      background: var(--bg-card);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+
+    .topics-trigger:hover {
+      border-color: var(--accent-1);
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.15);
+    }
+
+    .topics-trigger.open {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+    }
+
+    /* Hamburger icon */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 18px;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 2px;
+      border-radius: 2px;
+      background: currentColor;
+      transition: var(--transition);
+    }
+
+    .hamburger span:nth-child(1) {
+      width: 18px;
+    }
+
+    .hamburger span:nth-child(2) {
+      width: 12px;
+    }
+
+    .hamburger span:nth-child(3) {
+      width: 18px;
+    }
+
+    .topics-trigger.open .hamburger span:nth-child(1) {
+      width: 18px;
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .topics-trigger.open .hamburger span:nth-child(2) {
+      opacity: 0;
+      width: 0;
+    }
+
+    .topics-trigger.open .hamburger span:nth-child(3) {
+      width: 18px;
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    /* Selected topic label next to button */
+    .topics-selected-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-left: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .topics-selected-label strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Dropdown panel */
+    .topics-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      z-index: 100;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 6px;
+      min-width: 260px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+      animation: fadeInUp 0.15s ease both;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 9px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: var(--transition);
+    }
+
+    .dropdown-item:hover {
+      background: rgba(56, 189, 248, 0.08);
+      color: var(--text-primary);
+    }
+
+    .dropdown-item.active {
+      background: var(--tab-active-bg);
+      color: var(--tab-active-color);
+      font-weight: 700;
+    }
+
+    .dropdown-item-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* ===================================================
+         PROGRESS BAR (per-topic)
+      =================================================== */
+    .progress-wrap {
+      margin: 14px 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-label {
+      font-size: 0.78rem;
+      color: var(--text-faint);
+      white-space: nowrap;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 6px;
+      background: var(--progress-track);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--progress-fill);
+      border-radius: var(--radius-pill);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .progress-pct {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent-green);
+      min-width: 32px;
+      text-align: right;
+    }
+
+    /* ===================================================
+         TOPIC META
+      =================================================== */
+    .topic-meta {
+      margin-bottom: 16px;
+    }
+
+    .topic-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .topic-description {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-faint);
+      font-size: 0.9rem;
+    }
+
+    /* ===================================================
+         MAIN LAYOUT
+      =================================================== */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 860px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===================================================
+         SUBTOPIC CARDS
+      =================================================== */
+    .subtopic-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .subtopic-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: var(--transition);
+      animation: fadeInUp 0.25s ease both;
+    }
+
+    .subtopic-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .subtopic-card.is-studied {
+      border-color: var(--accent-green);
+      box-shadow: 0 0 0 1px var(--accent-glow), var(--shadow-card);
+    }
+
+    /* Card header (always visible, clickable to toggle) */
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 16px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .card-header-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subtopic-title {
+      font-weight: 600;
+      font-size: 0.96rem;
+    }
+
+    .subtopic-tag {
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      background: var(--accent-glow);
+      color: var(--accent-green);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      font-weight: 500;
+    }
+
+    .subtopic-tag.studied {
+      background: rgba(34, 197, 94, 0.25);
+      color: #4ade80;
+    }
+
+    .subtopic-summary {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .card-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    /* Studied checkbox */
+    .studied-wrap {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.75rem;
+      color: var(--text-faint);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .studied-wrap input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      accent-color: var(--accent-green);
+      cursor: pointer;
+    }
+
+    /* Chevron toggle */
+    .chevron {
+      font-size: 0.75rem;
+      color: var(--text-faint);
+      transition: transform 0.2s ease;
+      line-height: 1;
+    }
+
+    .chevron.open {
+      transform: rotate(180deg);
+    }
+
+    /* Card body (collapsible) */
+    .card-body {
+      padding: 0 16px 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ===================================================
+         BULLET POINTS (clickable → Google AI search)
+      =================================================== */
+    .subtopic-points {
+      list-style: none;
+      margin: 10px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .point-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .point-link {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: var(--transition);
+      flex: 1;
+      border: 1px solid transparent;
+    }
+
+    .point-link:hover {
+      background: rgba(56, 189, 248, 0.07);
+      border-color: rgba(56, 189, 248, 0.25);
+      color: var(--accent-1);
+    }
+
+    .point-bullet {
+      flex-shrink: 0;
+      margin-top: 3px;
+      font-size: 0.6rem;
+      color: var(--accent-green);
+      line-height: 1;
+    }
+
+    .point-search-icon {
+      flex-shrink: 0;
+      font-size: 0.68rem;
+      color: var(--text-faint);
+      margin-top: 4px;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .point-link:hover .point-search-icon {
+      opacity: 1;
+    }
+
+    /* ===================================================
+         NOTES TEXTAREA
+      =================================================== */
+    .notes-wrap {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    .notes-label {
+      font-size: 0.73rem;
+      color: var(--text-faint);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .notes-textarea {
+      width: 100%;
+      min-height: 64px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.8rem;
+      font-family: var(--font-ui);
+      color: var(--text-primary);
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.18s;
+      line-height: 1.5;
+    }
+
+    .notes-textarea::placeholder {
+      color: var(--text-faint);
+    }
+
+    .notes-textarea:focus {
+      border-color: var(--accent-2);
+    }
+
+    /* ===================================================
+         SIDE PANEL
+      =================================================== */
+    .side-panel {
+      background: var(--bg-side);
+      border-radius: var(--radius-card);
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--text-primary);
+      align-self: start;
+      position: sticky;
+      top: 24px;
+      transition: var(--transition);
+    }
+
+    .side-panel-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      background: rgba(56, 189, 248, 0.12);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      margin-bottom: 8px;
+    }
+
+    .side-panel-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .side-panel-list {
+      margin-left: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      color: var(--text-muted);
+    }
+
+    .side-panel-list li {
+      line-height: 1.4;
+    }
+
+    .side-panel-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 10px 0;
+    }
+
+    .side-panel-footer {
+      font-size: 0.76rem;
+      color: var(--text-faint);
+      line-height: 1.5;
+    }
+
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      margin-bottom: 5px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .tip-icon {
+      flex-shrink: 0;
+    }
+
+    /* ===================================================
+         KEYBOARD SHORTCUT HINT
+      =================================================== */
+    .kbd {
+      display: inline-block;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--text-faint);
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <!-- React 18 + Babel (JSX in browser, no build step needed) -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback, useRef } = React;
+
+    /* ==============================================
+       HELPER: localStorage with JSON fallback
+    ============================================== */
+    function useLocalStorage(key, defaultValue) {
+      const [value, setValue] = useState(() => {
+        try {
+          const stored = localStorage.getItem(key);
+          return stored !== null ? JSON.parse(stored) : defaultValue;
+        } catch { return defaultValue; }
+      });
+      const set = useCallback((v) => {
+        setValue(v);
+        try { localStorage.setItem(key, JSON.stringify(v)); } catch { }
+      }, [key]);
+      return [value, set];
+    }
+
+    /* ==============================================
+       DATA: Topics, subtopics, bullet points
+    ============================================== */
+    const TOPICS = [
+      {
+        id: "python",
+        name: "Python for Backend & Data",
+        icon: "🐍",
+        description: "Core Python for Gen AI software roles: language fundamentals, data structures, OOP, web frameworks, databases, async, testing, and performance.",
+        subtopics: [
+          {
+            id: "py-basics",
+            title: "Language Basics & Data Types",
+            summary: "Syntax, built-in types, functions, modules, and error handling.",
+            points: [
+              "Variables, indentation, and core data types: int, float, str, bool, bytes, NoneType.",
+              "Mutable vs immutable types — lists and dicts are mutable; tuples, strings, and frozensets are not.",
+              "List, tuple, set, and dict — know creation, operations, and time complexities (O(1) dict lookup).",
+              "Functions: positional, keyword, default args, *args, **kwargs, and keyword-only args (*).",
+              "Modules and packages: import, from…import, __init__.py, relative imports, and venv/pip.",
+              "Exception handling: try/except/else/finally, raise, custom exception classes, and exception chaining.",
+              "String formatting: f-strings, .format(), % — prefer f-strings; understand multiline strings.",
+              "Walrus operator (:=), ternary expressions, and unpacking (a, *rest = lst).",
+            ],
+          },
+          {
+            id: "py-ds-algo",
+            title: "Data Structures & Algorithms",
+            summary: "Built-in collections, sorting, searching, and complexity analysis.",
+            points: [
+              "List operations: append O(1), insert/remove O(n), slicing creates a copy.",
+              "Dict and set use hash tables — O(1) average for get/set/delete.",
+              "collections module: deque (O(1) appendleft), Counter, defaultdict, OrderedDict, namedtuple.",
+              "heapq for min-heap priority queues; bisect for binary search on sorted lists.",
+              "Sorting: sorted() / list.sort() use Timsort O(n log n); key= and reverse= params.",
+              "Recursion and memoization — use functools.lru_cache or manual dict cache.",
+              "Big-O basics: O(1), O(log n), O(n), O(n log n), O(n²) — know which operations fall into which.",
+              "Graph basics: BFS (deque), DFS (stack/recursion), adjacency list representation.",
+            ],
+          },
+          {
+            id: "py-advanced",
+            title: "Advanced Python Features",
+            summary: "Comprehensions, generators, decorators, context managers, typing.",
+            points: [
+              "List / dict / set / generator comprehensions — concise and performant.",
+              "Iterators vs generators: __iter__/__next__ vs yield; generators are lazy and memory-efficient.",
+              "Decorators: wrap functions with @decorator; understand @wraps for preserving metadata.",
+              "Context managers: with statement; custom via __enter__/__exit__ or @contextlib.contextmanager.",
+              "Type hints: Optional, Union, List, Dict, Callable, TypeVar, Generic, Protocol, TypedDict.",
+              "functools: lru_cache, partial, reduce, wraps, cache (Python 3.9+).",
+              "itertools: chain, product, combinations, permutations, groupby, islice.",
+              "Closures, nonlocal, and late binding — common interview gotcha with lambdas in loops.",
+            ],
+          },
+          {
+            id: "py-oop",
+            title: "OOP & Design Patterns",
+            summary: "Classes, inheritance, dataclasses, SOLID, and common patterns.",
+            points: [
+              "Instance methods, @classmethod (cls), @staticmethod — know when to use each.",
+              "Properties: @property, @setter, @deleter for controlled attribute access.",
+              "Dunder methods: __init__, __repr__, __str__, __eq__, __hash__, __len__, __getitem__, __call__.",
+              "Inheritance: super(), MRO (C3 linearization), multiple inheritance pitfalls.",
+              "Composition over inheritance — prefer has-a over is-a for flexible designs.",
+              "@dataclass: auto-generates __init__, __repr__, __eq__; frozen=True for immutability.",
+              "SOLID principles: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion.",
+              "Patterns: Factory, Singleton, Strategy, Observer, Decorator, Repository, Dependency Injection.",
+            ],
+          },
+          {
+            id: "py-web",
+            title: "Web Frameworks (FastAPI & Flask)",
+            summary: "Building REST APIs with FastAPI and Flask for backend and Gen AI services.",
+            points: [
+              "FastAPI: async-first, automatic OpenAPI docs, path/query/body params via type hints.",
+              "Pydantic models in FastAPI for request validation and response serialization.",
+              "FastAPI dependency injection: Depends() for auth, DB sessions, config.",
+              "Flask: route decorators, blueprints for modular apps, application factory pattern.",
+              "Middleware: CORS, logging, rate limiting, and authentication (JWT / API key).",
+              "REST best practices: proper HTTP verbs, status codes (200/201/400/401/403/404/500), versioning.",
+              "Background tasks: FastAPI BackgroundTasks, Celery + Redis for long-running jobs.",
+              "Deployment: uvicorn/gunicorn for ASGI apps; containerise with Docker.",
+            ],
+          },
+          {
+            id: "py-db",
+            title: "Databases & ORMs",
+            summary: "SQL, SQLAlchemy, async DB access, and vector stores.",
+            points: [
+              "SQL core: SELECT, JOIN (INNER/LEFT/RIGHT), WHERE, GROUP BY, HAVING, indexes, transactions.",
+              "SQLAlchemy ORM: models, sessions, relationships, lazy vs eager loading.",
+              "SQLAlchemy Core / async (asyncpg, aiosqlite) for high-throughput async apps.",
+              "Alembic: database migrations — autogenerate, upgrade, downgrade.",
+              "PostgreSQL features useful for Gen AI: pgvector for embeddings, JSONB for flexible data.",
+              "Redis: caching, pub/sub, rate limiting, and semantic cache for LLM responses.",
+              "Connection pooling: SQLAlchemy pool_size, max_overflow; avoid opening connections per request.",
+              "N+1 query problem and how to solve it with joined loads or select_in loads.",
+            ],
+          },
+          {
+            id: "py-async",
+            title: "Async & Concurrency",
+            summary: "asyncio, threads, processes, and when to use each.",
+            points: [
+              "Event loop: async def, await — cooperative multitasking; only one coroutine runs at a time.",
+              "asyncio.gather() runs coroutines concurrently; asyncio.create_task() schedules a coroutine.",
+              "GIL (Global Interpreter Lock): threading is fine for I/O-bound; use multiprocessing for CPU-bound.",
+              "concurrent.futures: ThreadPoolExecutor (I/O), ProcessPoolExecutor (CPU) with as_completed().",
+              "asyncio.Queue for producer/consumer patterns; asyncio.Semaphore for rate limiting.",
+              "run_in_executor: run blocking code in a thread pool from async context.",
+              "Async generators (async def + yield) and async context managers (async with).",
+              "aiohttp / httpx for async HTTP requests to external LLM APIs.",
+            ],
+          },
+          {
+            id: "py-testing",
+            title: "Testing, Linting & CI",
+            summary: "pytest, mocking, coverage, code quality, and CI pipelines.",
+            points: [
+              "pytest: test discovery, fixtures (scope=function/class/session), parametrize, marks (skip, xfail).",
+              "conftest.py for shared fixtures; fixture factories for dynamic test data.",
+              "unittest.mock: Mock, MagicMock, patch, patch.object — isolate units from external deps.",
+              "pytest-mock: mocker fixture as a convenience wrapper around unittest.mock.",
+              "Code coverage: pytest-cov; aim for meaningful coverage of business logic, not 100% blindly.",
+              "Test pyramid: many unit tests, fewer integration tests, minimal E2E tests.",
+              "Linting: ruff (fast, replaces flake8+isort+pyupgrade), mypy for static type checking.",
+              "Pre-commit hooks + GitHub Actions / GitLab CI to run tests and lint on every PR.",
+            ],
+          },
+        ],
+      },
+      {
+        id: "genai",
+        name: "Gen AI & LLMs",
+        icon: "🤖",
+        description: "Comprehensive Gen AI for software roles: LLM internals, prompting, RAG, fine-tuning, agents, multimodal, safety, and production engineering.",
+        subtopics: [
+          {
+            id: "genai-basics",
+            title: "Core Concepts & LLM Internals",
+            summary: "Transformers, training paradigms, key terminology, and model families.",
+            points: [
+              "Transformer architecture: self-attention, multi-head attention, positional encoding, encoder vs decoder.",
+              "Attention mechanism: Q, K, V matrices; scaled dot-product attention; why attention = O(n²).",
+              "Training stages: pre-training (next-token prediction) → SFT → RLHF/DPO → instruction tuning.",
+              "Key parameters: temperature (randomness), top-p (nucleus sampling), top-k, max_tokens, stop sequences.",
+              "Tokens vs words: ~0.75 words/token; context window = max input+output tokens.",
+              "Hallucination causes: next-token prediction doesn't verify facts; model interpolates training data.",
+              "Generative vs discriminative: GPT/LLaMA (generative) vs BERT/RoBERTa (discriminative/encoder-only).",
+              "Model families: GPT-4/o, Claude 3.x, Gemini, Llama 3, Mistral, Falcon — know trade-offs.",
+            ],
+          },
+          {
+            id: "genai-prompting",
+            title: "Prompt Engineering",
+            summary: "System prompts, few-shot, CoT, structured output, and function calling.",
+            points: [
+              "Prompt anatomy: role / task / context / output format / constraints / examples.",
+              "System vs user vs assistant message roles in chat APIs (OpenAI, Anthropic, Bedrock).",
+              "Zero-shot, one-shot, few-shot prompting — more examples = better calibration for novel tasks.",
+              "Chain-of-Thought (CoT): 'Let's think step by step' improves multi-step reasoning on GPT-4 class models.",
+              "Self-consistency: sample multiple CoT paths, majority vote — reduces single-path errors.",
+              "Output structuring: ask for JSON, use Pydantic + instructor library, or OpenAI structured outputs mode.",
+              "Function/tool calling: define JSON schema for tools; LLM returns tool_call; your code runs it and feeds result back.",
+              "Prompt injection risks: user input that overrides system prompt; use separate input sanitization.",
+            ],
+          },
+          {
+            id: "genai-rag",
+            title: "RAG & Vector Search",
+            summary: "Embeddings, vector databases, retrieval pipeline, and hybrid search.",
+            points: [
+              "Embeddings: dense float vectors (e.g., 1536-dim for text-embedding-3-small) — similar meaning = close vectors.",
+              "Cosine similarity vs dot product vs Euclidean distance for nearest-neighbour search.",
+              "Vector databases: Pinecone, Weaviate, Chroma, FAISS (local), pgvector (Postgres), OpenSearch.",
+              "RAG pipeline: load docs → split/chunk → embed → upsert → query embed → ANN search → stuff into prompt.",
+              "Chunking strategies: fixed-size (overlap), sentence-window, recursive splitter, semantic chunking.",
+              "Hybrid search: combine dense (vector) + sparse (BM25/keyword) retrieval for better recall.",
+              "Re-ranking: use a cross-encoder (e.g., Cohere Rerank) to reorder retrieved chunks before stuffing.",
+              "RAG vs fine-tuning: RAG for fresh/private data at inference; fine-tuning for tone/format/domain.",
+            ],
+          },
+          {
+            id: "genai-finetuning",
+            title: "Fine-Tuning & PEFT",
+            summary: "When and how to fine-tune; LoRA, QLoRA, and instruction tuning.",
+            points: [
+              "Full fine-tuning: update all model weights — expensive, needs many GPUs, risk of catastrophic forgetting.",
+              "PEFT (Parameter-Efficient Fine-Tuning): freeze base weights, train only small adapter layers.",
+              "LoRA (Low-Rank Adaptation): inject low-rank matrices A×B into attention layers; drastically fewer trainable params.",
+              "QLoRA: LoRA + 4-bit quantization of base model — fine-tune 70B models on a single A100.",
+              "Instruction tuning dataset format: (instruction, input, output) triplets — e.g., Alpaca format.",
+              "DPO (Direct Preference Optimization): simpler alternative to RLHF for aligning models to human preferences.",
+              "Tools: Hugging Face PEFT + Transformers + TRL libraries; Unsloth for fast QLoRA.",
+              "Evaluation after fine-tuning: held-out test set, BLEU/ROUGE, task-specific metrics, human eval.",
+            ],
+          },
+          {
+            id: "genai-agents",
+            title: "Agents & Orchestration",
+            summary: "ReAct, tool use, memory, multi-agent systems, and popular frameworks.",
+            points: [
+              "ReAct loop: Thought → Action (tool call) → Observation → repeat until final answer.",
+              "Tool types: web search, code interpreter, database query, API call, file read/write.",
+              "Memory types: in-context (chat history), external vector store (long-term), episodic (summaries).",
+              "LangChain: chains, agents, tools, retrievers, memory — flexible but complex; v0.3+ restructured.",
+              "LlamaIndex: focused on data ingestion, indexing, and query engines for RAG pipelines.",
+              "Multi-agent patterns: supervisor → worker agents; CrewAI, Autogen, LangGraph for complex flows.",
+              "LangGraph: stateful graph of nodes (LLM calls) and edges (conditionals) — handles branching and cycles.",
+              "Failure modes: context overflow, tool misuse, infinite loops — use max_iterations and timeouts.",
+            ],
+          },
+          {
+            id: "genai-multimodal",
+            title: "Multimodal & Embeddings",
+            summary: "Vision-language models, image/audio inputs, and multimodal RAG.",
+            points: [
+              "Multimodal LLMs accept text + images (GPT-4o, Claude 3, Gemini 1.5 Pro) and sometimes audio/video.",
+              "Vision encoders (CLIP, ViT) convert images to patch embeddings; fused with text in cross-attention.",
+              "Use cases: document understanding (invoices, charts), visual QA, image captioning, OCR + reasoning.",
+              "Multimodal RAG: embed images with CLIP or LLaVA; store image embeddings alongside text chunks.",
+              "Audio models: Whisper for transcription → feed transcript to LLM; voice pipelines (STT → LLM → TTS).",
+              "DALL-E / Stable Diffusion / Imagen for image generation from text prompts.",
+              "Cross-modal embeddings: CLIP maps images and text to same vector space for image-text similarity search.",
+            ],
+          },
+          {
+            id: "genai-production",
+            title: "Production, Safety & Evaluation",
+            summary: "Safety guardrails, cost, latency, observability, and LLM quality metrics.",
+            points: [
+              "Prompt injection: user overrides system prompt — mitigate with input validation and separate trust levels.",
+              "Output filtering: content classifiers (OpenAI Moderation API, Llama Guard), regex blocklists.",
+              "Guardrails: Guardrails AI, NeMo Guardrails — enforce output format and safety rules.",
+              "Evaluation: RAGAS (faithfulness, answer relevance, context recall), G-Eval, LLM-as-judge, human eval.",
+              "Latency optimization: streaming (stream=True), caching (GPTCache, Redis semantic cache), smaller models.",
+              "Cost tracking: token usage per request; tiktoken for counting input tokens before sending.",
+              "Observability: LangSmith traces, Helicone, Traceloop (OpenTelemetry) — log prompts + completions.",
+              "Structured output: JSON mode, Pydantic + instructor, OpenAI response_format for reliable parsing.",
+            ],
+          },
+        ],
+      },
+      {
+        id: "aws",
+        name: "AWS for Gen AI Apps",
+        icon: "☁️",
+        description: "End-to-end AWS for Gen AI roles: core services, serverless, managed AI, networking, security, data, IaC, and cost management.",
+        subtopics: [
+          {
+            id: "aws-core",
+            title: "Core AWS Services",
+            summary: "Compute, storage, database, networking, and IAM foundations.",
+            points: [
+              "EC2: instance types (t3/m5/g4dn/p3), spot vs on-demand, AMIs, user data scripts, placement groups.",
+              "S3: buckets, object lifecycle policies, versioning, presigned URLs, S3 Event Notifications.",
+              "RDS & Aurora: Multi-AZ for HA, read replicas for scaling, Aurora Serverless v2 for auto-scaling.",
+              "DynamoDB: key-value + document NoSQL, partition key design, GSIs, on-demand vs provisioned capacity.",
+              "ElastiCache (Redis): caching LLM responses, session store, pub/sub, TTL-based expiry.",
+              "IAM: users, groups, roles, policies (identity vs resource), assume-role, least privilege, SCPs in AWS Orgs.",
+              "VPC: CIDR design, public/private subnets, NAT Gateway, VPC Endpoints (avoid public internet for S3/DynamoDB).",
+              "Route 53: DNS routing policies — simple, weighted, latency-based, failover, geolocation.",
+            ],
+          },
+          {
+            id: "aws-serverless",
+            title: "Serverless & Event-Driven",
+            summary: "Lambda, API Gateway, SQS, SNS, EventBridge, and Step Functions.",
+            points: [
+              "Lambda: handler(event, context), cold start mitigation (provisioned concurrency, SnapStart for Java).",
+              "Lambda layers for shared dependencies; container image Lambdas for large ML packages.",
+              "API Gateway REST vs HTTP API: HTTP API is cheaper/faster; REST API has more features (WAF, usage plans).",
+              "SQS standard vs FIFO; visibility timeout, dead-letter queues (DLQ), long polling.",
+              "SNS fan-out pattern: one message → multiple SQS/Lambda/email subscribers.",
+              "EventBridge: event bus for decoupled microservices; schedule Lambda with cron expressions.",
+              "Step Functions: state machine for orchestrating multi-step Gen AI pipelines with retries and error handling.",
+              "CloudWatch: Logs (log groups, insights queries), Metrics (custom metrics with PutMetricData), Alarms → SNS.",
+            ],
+          },
+          {
+            id: "aws-genai",
+            title: "Gen AI on AWS (Bedrock & SageMaker)",
+            summary: "Managed model inference, RAG, fine-tuning, and Gen AI architecture patterns.",
+            points: [
+              "Amazon Bedrock: invoke models (Claude, Titan, Llama, Mistral, Cohere) via API — no GPU/infra management.",
+              "Bedrock Converse API: unified interface across all Bedrock models for chat and tool use.",
+              "Bedrock Knowledge Bases: fully managed RAG — connect S3 → auto-embed → OpenSearch Serverless.",
+              "Bedrock Agents: managed ReAct agent — connects to action groups (Lambda) and knowledge bases.",
+              "SageMaker JumpStart: deploy open-source models (Llama, Falcon) with one click to SageMaker endpoints.",
+              "SageMaker Training Jobs: fine-tune models at scale with managed distributed training (DeepSpeed, FSDP).",
+              "Secrets Manager for API keys (rotation supported); SSM Parameter Store for config values.",
+              "Reference Gen AI arch: Client → CloudFront → API Gateway → Lambda → Bedrock + Knowledge Base → S3/DynamoDB.",
+            ],
+          },
+          {
+            id: "aws-networking-security",
+            title: "Networking & Security",
+            summary: "Advanced VPC, WAF, encryption, compliance, and zero-trust patterns.",
+            points: [
+              "VPC PrivateLink: expose services to other VPCs privately without internet or VPC peering.",
+              "AWS WAF: protect API Gateway / CloudFront from SQL injection, XSS, rate-limiting attacks.",
+              "Shield Standard (free DDoS) vs Shield Advanced (24/7 DRT, cost protection).",
+              "KMS: envelope encryption — data encrypted with data key, data key encrypted with CMK.",
+              "S3 server-side encryption: SSE-S3, SSE-KMS, SSE-C — use SSE-KMS for audit trail.",
+              "CloudTrail: API audit log for all AWS calls — essential for compliance and forensics.",
+              "GuardDuty: ML-based threat detection on CloudTrail, VPC Flow Logs, DNS logs.",
+              "Zero-trust: use IAM roles + VPC Endpoints + private subnets — no public IPs on compute.",
+            ],
+          },
+          {
+            id: "aws-data",
+            title: "Data & Analytics Services",
+            summary: "Glue, Athena, Redshift, Kinesis, and data pipelines for Gen AI.",
+            points: [
+              "AWS Glue: serverless ETL — crawlers auto-discover schema, Glue jobs transform data in Spark/Python.",
+              "Athena: serverless SQL on S3 (Presto-based); pay per TB scanned; use Parquet + partitioning to cut costs.",
+              "Redshift: columnar data warehouse for analytics at scale; Redshift Serverless for on-demand workloads.",
+              "Kinesis Data Streams: real-time ingest of high-volume events (logs, clickstreams) for Gen AI pipelines.",
+              "Kinesis Data Firehose: zero-code delivery of streams to S3/Redshift/OpenSearch.",
+              "OpenSearch Service: full-text + vector search; used as the retrieval layer in Bedrock Knowledge Bases.",
+              "Data Lake pattern: raw → curated → aggregated layers in S3; Glue for transformation; Athena for query.",
+              "Lake Formation: fine-grained column- and row-level access control on S3 data lake.",
+            ],
+          },
+          {
+            id: "aws-iac",
+            title: "IaC, CI/CD & Cost Management",
+            summary: "CDK, CloudFormation, CodePipeline, containers, and cost optimisation.",
+            points: [
+              "CloudFormation: JSON/YAML stacks; parameters, outputs, cross-stack references, change sets.",
+              "AWS CDK (Python): define infra as code with constructs (L1 CFN, L2 curated, L3 patterns); cdk deploy/diff/synth.",
+              "Terraform on AWS: provider-based IaC; state in S3 + DynamoDB lock; plan/apply workflow.",
+              "CodePipeline + CodeBuild: source (GitHub/CodeCommit) → build (install, test, lint) → deploy (CDK/CFN).",
+              "ECR: managed Docker registry; scan images for CVEs; use ECR lifecycle policies to purge old images.",
+              "ECS Fargate: run containers without managing servers; task definitions, services, ALB integration.",
+              "Cost tools: AWS Cost Explorer, Budgets (alert on thresholds), Trusted Advisor for rightsizing.",
+              "Savings strategies: Reserved Instances (1/3yr), Savings Plans (compute/EC2), Spot for batch/training workloads.",
+            ],
+          },
+        ],
+      },
+    ];
+
+    /* ==============================================
+       COMPONENT: Header
+    ============================================== */
+    function Header({ theme, onToggleTheme }) {
+      return (
+        <header className="header">
+          <div className="header-body">
+            <h1 className="header-title">Gen AI Interview Prep Hub</h1>
+            <p className="header-subtitle">
+              A focused place to organise everything for Gen AI software development interviews: Python, Gen AI/LLMs, and AWS — with personal notes, progress tracking, and instant Google AI search.
+            </p>
+          </div>
+          <button
+            className="theme-toggle"
+            onClick={onToggleTheme}
+            title="Toggle theme"
+            aria-label="Toggle dark/light theme"
+          >
+            {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+          </button>
+        </header>
+      );
+    }
+
+    /* ==============================================
+       COMPONENT: TopicsDropdown (hamburger)
+    ============================================== */
+    function TopicsDropdown({ topics, selectedId, onChange }) {
+      const [open, setOpen] = useState(false);
+      const wrapRef = useRef(null);
+      const selected = topics.find(t => t.id === selectedId) || topics[0];
+
+      // Close on outside click
+      useEffect(() => {
+        function handleClick(e) {
+          if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
+        }
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+      }, []);
+
+      function select(id) { onChange(id); setOpen(false); }
+
+      return (
+        <div className="topics-nav" ref={wrapRef}>
+          <button
+            className={"topics-trigger" + (open ? " open" : "")}
+            onClick={() => setOpen(o => !o)}
+            aria-haspopup="listbox"
+            aria-expanded={open}
+            aria-label="Select topic"
+          >
+            <span className="hamburger" aria-hidden="true">
+              <span /><span /><span />
+            </span>
+            Topics
+          </button>
+          <span className="topics-selected-label">
+            {selected.icon} <strong>{selected.name}</strong>
+          </span>
+          {open && (
+            <div className="topics-dropdown" role="listbox">
+              {topics.map(topic => (
+                <button
+                  key={topic.id}
+                  role="option"
+                  aria-selected={topic.id === selectedId}
+                  className={"dropdown-item" + (topic.id === selectedId ? " active" : "")}
+                  onClick={() => select(topic.id)}
+                >
+                  <span className="dropdown-item-icon">{topic.icon}</span>
+                  {topic.name}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    /* ==============================================
+       COMPONENT: ProgressBar
+    ============================================== */
+    function ProgressBar({ studied, total }) {
+      const pct = total === 0 ? 0 : Math.round((studied / total) * 100);
+      return (
+        <div className="progress-wrap" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
+          <span className="progress-label">{studied}/{total} studied</span>
+          <div className="progress-track">
+            <div className="progress-fill" style={{ width: pct + "%" }} />
+          </div>
+          <span className="progress-pct">{pct}%</span>
+        </div>
+      );
+    }
+
+    /* ==============================================
+       COMPONENT: SubtopicCard
+    ============================================== */
+    function SubtopicCard({ subtopic, isStudied, onStudiedChange, note, onNoteChange, searchText }) {
+      const [open, setOpen] = useState(true);
+
+      // Build Google AI Mode search URL
+      function buildSearchUrl(pointText) {
+        const query = `${subtopic.title} ${pointText}`;
+        return `https://www.google.com/search?q=${encodeURIComponent(query)}&udm=14`;
+      }
+
+      // Highlight matching text in search
+      function highlight(text) {
+        if (!searchText) return text;
+        const regex = new RegExp(`(${searchText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        const parts = text.split(regex);
+        return parts.map((part, i) =>
+          regex.test(part)
+            ? <mark key={i} style={{ background: 'rgba(250,204,21,0.3)', color: 'inherit', borderRadius: '3px', padding: '0 2px' }}>{part}</mark>
+            : part
+        );
+      }
+
+      return (
+        <article
+          className={"subtopic-card" + (isStudied ? " is-studied" : "")}
+          style={{ animationDelay: "0.05s" }}
+        >
+          {/* Card header — click to expand/collapse */}
+          <div
+            className="card-header"
+            onClick={() => setOpen(o => !o)}
+            role="button"
+            aria-expanded={open}
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && setOpen(o => !o)}
+          >
+            <div className="card-header-left">
+              <div className="card-title-row">
+                <span className="subtopic-title">{highlight(subtopic.title)}</span>
+                <span className={"subtopic-tag" + (isStudied ? " studied" : "")}>
+                  {isStudied ? "✓ Studied" : "Core area"}
+                </span>
+              </div>
+              <p className="subtopic-summary">{highlight(subtopic.summary)}</p>
+            </div>
+            <div className="card-right">
+              {/* Studied checkbox — stop propagation so it doesn't toggle collapse */}
+              <label
+                className="studied-wrap"
+                onClick={(e) => e.stopPropagation()}
+                title="Mark as studied"
+              >
+                <input
+                  type="checkbox"
+                  checked={isStudied}
+                  onChange={(e) => onStudiedChange(e.target.checked)}
+                  aria-label={`Mark ${subtopic.title} as studied`}
+                />
+                Studied
+              </label>
+              <span className={"chevron" + (open ? " open" : "")}>▼</span>
+            </div>
+          </div>
+
+          {/* Card body — bullet points + notes */}
+          {open && (
+            <div className="card-body">
+              <ul className="subtopic-points">
+                {subtopic.points.map((point, idx) => (
+                  <li key={idx} className="point-item">
+                    <a
+                      href={buildSearchUrl(point)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="point-link"
+                      title={`Search Google AI: ${point}`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span className="point-bullet" aria-hidden="true">●</span>
+                      <span>{highlight(point)}</span>
+                      <span className="point-search-icon" aria-hidden="true">🔍</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Personal notes */}
+              <div className="notes-wrap">
+                <p className="notes-label">📝 My notes</p>
+                <textarea
+                  className="notes-textarea"
+                  placeholder="Add your own notes, code snippets, or questions here…"
+                  value={note}
+                  onChange={(e) => onNoteChange(e.target.value)}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+            </div>
+          )}
+        </article>
+      );
+    }
+
+    /* ==============================================
+       COMPONENT: SidePanel
+    ============================================== */
+    function SidePanel({ topic, studiedCount }) {
+      return (
+        <aside className="side-panel">
+          <div className="side-panel-badge">⚡ How to use this page</div>
+          <h3 className="side-panel-title">Quick Interview Tips</h3>
+          <div className="tip-item"><span className="tip-icon">📅</span><span>Focus on one topic tab per study session.</span></div>
+          <div className="tip-item"><span className="tip-icon">🗣️</span><span>Say each bullet point answer out loud — interviewing is verbal.</span></div>
+          <div className="tip-item"><span className="tip-icon">💻</span><span>Turn each bullet into a short code example or diagram.</span></div>
+          <div className="tip-item"><span className="tip-icon">🔍</span><span>Click any bullet point to open a <strong>Google AI search</strong> for deeper reading.</span></div>
+          <div className="tip-item"><span className="tip-icon">📝</span><span>Use the notes area to write your own answers in your own words.</span></div>
+          <div className="tip-item"><span className="tip-icon">✅</span><span>Check "Studied" when you can recall a subtopic without looking.</span></div>
+          <hr className="side-panel-divider" />
+          <p className="side-panel-footer">
+            You have studied <strong style={{ color: "var(--accent-green)" }}>{studiedCount}</strong> subtopic{studiedCount !== 1 ? "s" : ""} in <em>{topic.name}</em>. Keep going!
+          </p>
+        </aside>
+      );
+    }
+
+    /* ==============================================
+       MAIN APP
+    ============================================== */
+    function App() {
+      // Persisted state
+      const [theme, setTheme] = useLocalStorage("prep_theme", "dark");
+      const [studiedMap, setStudiedMap] = useLocalStorage("prep_studied", {});
+      const [notesMap, setNotesMap] = useLocalStorage("prep_notes", {});
+
+      // Ephemeral state
+      const [selectedId, setSelectedId] = useState("python");
+      const [searchText, setSearchText] = useState("");
+      const searchRef = useRef(null);
+
+      // Apply theme to document
+      useEffect(() => {
+        document.documentElement.setAttribute("data-theme", theme);
+      }, [theme]);
+
+      // Keyboard shortcut: Ctrl+K to focus search
+      useEffect(() => {
+        function handler(e) {
+          if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+            e.preventDefault();
+            searchRef.current?.focus();
+          }
+        }
+        window.addEventListener("keydown", handler);
+        return () => window.removeEventListener("keydown", handler);
+      }, []);
+
+      const topic = TOPICS.find(t => t.id === selectedId) || TOPICS[0];
+
+      // Filter subtopics by search text
+      const query = searchText.trim().toLowerCase();
+      const filteredSubs = query
+        ? topic.subtopics.filter(sub =>
+          sub.title.toLowerCase().includes(query) ||
+          sub.summary.toLowerCase().includes(query) ||
+          sub.points.some(p => p.toLowerCase().includes(query))
+        )
+        : topic.subtopics;
+
+      // Progress
+      const studiedCount = topic.subtopics.filter(s => studiedMap[s.id]).length;
+
+      function toggleStudied(subId, val) {
+        setStudiedMap({ ...studiedMap, [subId]: val });
+      }
+
+      function updateNote(subId, text) {
+        setNotesMap({ ...notesMap, [subId]: text });
+      }
+
+      return (
+        <div className="app-shell">
+          <Header theme={theme} onToggleTheme={() => setTheme(theme === "dark" ? "light" : "dark")} />
+
+          {/* Search */}
+          <div className="search-wrap">
+            <span className="search-icon" aria-hidden="true">🔍</span>
+            <input
+              ref={searchRef}
+              className="search-input"
+              type="text"
+              placeholder="Search subtopics, summaries, or bullet points… (Ctrl+K)"
+              value={searchText}
+              onChange={e => setSearchText(e.target.value)}
+              aria-label="Search subtopics"
+            />
+            {searchText && (
+              <button className="search-clear" onClick={() => setSearchText("")} aria-label="Clear search">✕</button>
+            )}
+          </div>
+
+          {/* Topics hamburger dropdown */}
+          <TopicsDropdown topics={TOPICS} selectedId={selectedId} onChange={(id) => { setSelectedId(id); setSearchText(""); }} />
+
+          {/* Progress bar */}
+          <ProgressBar studied={studiedCount} total={topic.subtopics.length} />
+
+          {/* Topic meta */}
+          <div className="topic-meta">
+            <p className="topic-name">{topic.icon} {topic.name}</p>
+            <p className="topic-description">{topic.description}</p>
+          </div>
+
+          {/* Main layout */}
+          <div className="layout">
+            <section className="subtopic-list" aria-label="Subtopics">
+              {filteredSubs.length === 0 ? (
+                <div className="no-results">
+                  🔎 No subtopics match "<strong>{searchText}</strong>". Try a different keyword.
+                </div>
+              ) : (
+                filteredSubs.map(sub => (
+                  <SubtopicCard
+                    key={sub.id}
+                    subtopic={sub}
+                    isStudied={!!studiedMap[sub.id]}
+                    onStudiedChange={(val) => toggleStudied(sub.id, val)}
+                    note={notesMap[sub.id] || ""}
+                    onNoteChange={(text) => updateNote(sub.id, text)}
+                    searchText={query}
+                  />
+                ))
+              )}
+            </section>
+
+            <SidePanel topic={topic} studiedCount={studiedCount} />
+          </div>
+        </div>
+      );
+    }
+
+    /* ==============================================
+       RENDER
+    ============================================== */
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+
+</html>
